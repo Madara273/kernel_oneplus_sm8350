@@ -253,31 +253,35 @@ install_packages(){
 	echo -e "${GREEN}Necessary packages successfully installed.${NC}"
 }
 
-# ---- Clone Anykernel3 ----
-clone_anykernel3(){
+# ---- Clone AnyKernel3 ----
+clone_anykernel3() {
 	while true; do
 		echo -e "${YELLOW}Select branch to clone or skip:${NC}"
-		echo -e "${BLUE}1.👉 Neutrino${NC}"
+		echo -e "${BLUE}1.👉 Default McQ (Madara273/AnyKernel3_McQuaid)${NC}"
 		echo -e "${BLUE}2.👉 Custom git clone command${NC}"
 		echo -e "${BLUE}3.👉 Skip${NC}"
 
 		# Set timeout for user input (5 seconds)
 		read -t 5 -rp "Enter your choice (1, 2, or 3): " choice
 
-		# If no input is provided within 5 seconds, default to action 1 (Neutrino)
-		[ -z "$choice" ] && echo -e "${YELLOW}No input detected. Automatically selecting Neutrino.${NC}" && choice=1
+		# If no input is provided within 5 seconds, default to action 1
+		[ -z "$choice" ] && echo -e "${YELLOW}No input detected. Automatically selecting McQ.${NC}" && choice=1
 
 		case $choice in
 			1)
-				branch="Neutrino"
-				git clone --depth=1 https://github.com/Madara273/AnyKernel3.git -b "$branch" "$AK3_PATH" &&
-				{ echo -e "${GREEN}Clone successful.${NC}"; break; } || echo -e "${RED}Clone failed.${NC}"
+				branch="McQ"
+				repo="https://github.com/Madara273/AnyKernel3_McQuaid"
+				[ -z "$AK3_PATH" ] && AK3_PATH="AnyKernel3"
+				[ -d "$AK3_PATH" ] && echo -e "${YELLOW}Directory '$AK3_PATH' already exists. Removing...${NC}" && rm -rf "$AK3_PATH"
+				git clone --depth=1 "$repo" -b "$branch" "$AK3_PATH" &&
+				{ echo -e "${GREEN}Clone successful.${NC}"; break; } ||
+				echo -e "${RED}Clone failed.${NC}"
 				;;
 			2)
 				while true; do
-					read -rp "Enter the full git clone command (e.g., git clone https://github.com/username/repository.git -b branch_name): " clone_command
-					# Execute the custom command and check its success
-					eval "$clone_command" && { echo -e "${GREEN}Clone successful.${NC}"; break; } || echo -e "${RED}Clone failed. Please try again.${NC}"
+					read -rp "Enter full git clone command (e.g., git clone https://github.com/user/repo.git -b branch): " clone_command
+					eval "$clone_command" && { echo -e "${GREEN}Clone successful.${NC}"; break; } ||
+					echo -e "${RED}Clone failed. Please try again.${NC}"
 				done
 				return 0
 				;;

@@ -55,7 +55,7 @@ echo -e "━━━━━━━━━━━━━━━━━━━━━━━�
 # ----  ASCII Art Logo with random colors ----
 ascii_art_logo() {
 	echo -e "
-$(random_color)*******************************NEUTRINO*******************************${NC}
+$(random_color)*******************************McQuaid*******************************${NC}
 $(random_color) ______ ______ _______ _______ _______ _______ ___ ___ ______ _______ ${NC}
 $(random_color)|   __ \   __ \       |_     _|       |_     _|   |   |   __ \    ___|${NC}
 $(random_color)|    __/      <   -   | |   | |   -   | |   |  \     /|    __/    ___|${NC}
@@ -130,7 +130,7 @@ FINAL_KERNEL_BUILD_PARA="ARCH=$TARGET_ARCH \
 
 # ----  Defconfig parameters ----
 DEFCONFIG_PATH=arch/arm64/configs
-DEFCONFIG_NAME="neutrino_defconfig"
+DEFCONFIG_NAME="mcquaid_defconfig"
 
 # ---- Time parameters ----
 START_SEC=$(date +%s)
@@ -139,7 +139,7 @@ CURRENT_TIME=$(date '+%Y%m%d-%H%M')
 # ---- Setup secure keystore paths ----
 HOME="${HOME:-/tmp}"
 [ "$HOME" = "/" ] && HOME="/tmp"
-SIGNER_DIR="$HOME/.neutrino"
+SIGNER_DIR="$HOME/.mcquaid"
 
 KEYSTORE="$SIGNER_DIR/keystore.p12"
 PASSFILE="$SIGNER_DIR/.store_pass"
@@ -170,7 +170,7 @@ echo -e "${GREEN}$KERNEL_DIR${NC}"
 
 # ---- Function to display build information ----
 display_build_info(){
-	echo -e "${PURPLE}***************Neutrino-Kernel**************${NC}"
+	echo -e "${PURPLE}***************McQuaid-Kernel**************${NC}"
 	echo -e "PRODUCT: $TARGET_DEVICE"
 	echo -e "USER: $KBUILD_USER"
 	echo -e "HOST: $KBUILD_HOST"
@@ -531,8 +531,8 @@ generate_flashable() {
 		exit 1
 	}
 
-	FLASHABLE_ZIP="Neutrino-$CLEAN_TIME.zip"
-	SIGNED_ZIP="Neutrino-$CLEAN_TIME-signed.zip"
+	FLASHABLE_ZIP="McQuaid-$CLEAN_TIME.zip"
+	SIGNED_ZIP="McQuaid-$CLEAN_TIME-signed.zip"
 
 	zip -q -r "$FLASHABLE_ZIP" * -x "README.md" "changelog.txt" "defconfig" "kernel-changelog.txt" "build.log" || {
 		echo -e "${RED}Failed to pack flashable kernel.${NC}"
@@ -621,13 +621,13 @@ create_changelog() {
 # ----  End Build Info ----
 # Function to display kernel version and config information
 display_kernel_version_info() {
-	# Find neutrino_defconfig file
-	NEUTRINO_DEFCONFIG=$(find . -name 'neutrino_defconfig' -print -quit)
+	# Find mcquaid_defconfig file
+	MCQUAID_DEFCONFIG=$(find . -name 'mcquaid_defconfig' -print -quit)
 
-	[ -z "$NEUTRINO_DEFCONFIG" ] && echo -e "${RED}neutrino_defconfig not found!${NC}" && return 1
+	[ -z "$MCQUAID_DEFCONFIG" ] && echo -e "${RED}mcquaid_defconfig not found!${NC}" && return 1
 
 	echo -e "${GREEN}===================END_BUILD=================${NC}"
-	echo -e "${PURPLE}***************Neutrino-Kernel**************${NC}"
+	echo -e "${PURPLE}***************McQuaid-Kernel**************${NC}"
 	echo -e "USER: $KBUILD_USER"
 	echo -e "HOST: $KBUILD_HOST"
 	echo -e "${PURPLE}*************last commit details************${NC}"
@@ -639,8 +639,8 @@ display_kernel_version_info() {
 	echo -e "SUBLEVEL: $(grep -E '^SUBLEVEL =' Makefile | awk '{print $3}')"
 	echo -e "EXTRAVERSION: $(grep -E '^EXTRAVERSION =' Makefile | awk '{print $3}')"
 	echo -e "NAME: $(grep -E '^NAME =' Makefile | awk '{print $3}')"
-	echo -e "CONFIG_LOCALVERSION: $(grep -E '^CONFIG_LOCALVERSION=' $NEUTRINO_DEFCONFIG | awk -F'=' '{print $2}')"
-	echo -e "CONFIG_UNAME_OVERRIDE_STRING: $(grep -E '^CONFIG_UNAME_OVERRIDE_STRING=' $NEUTRINO_DEFCONFIG | awk -F'=' '{print $2}')"
+	echo -e "CONFIG_LOCALVERSION: $(grep -E '^CONFIG_LOCALVERSION=' $MCQUAID_DEFCONFIG | awk -F'=' '{print $2}')"
+	echo -e "CONFIG_UNAME_OVERRIDE_STRING: $(grep -E '^CONFIG_UNAME_OVERRIDE_STRING=' $MCQUAID_DEFCONFIG | awk -F'=' '{print $2}')"
 	echo -e "${PURPLE}**********************************************${NC}"
 }
 

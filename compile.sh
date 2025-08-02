@@ -212,6 +212,7 @@ msg $green "|| Cloning Toolchain ||" $white
 		# Files to download
 		files=("eva-gcc-arm" "eva-gcc-arm64")
 		repo_url="https://github.com/mvaisakh/gcc-build/releases/download/"
+		release_date="22052025"
 
 		# Function to get the last 60 days in DDMMYYYY format
 		get_last_60_days() {
@@ -227,23 +228,23 @@ msg $green "|| Cloning Toolchain ||" $white
 			downloaded=false # Reset the download status for the current file.
 
 			# Loop through the last 60 days to find a valid release.
-			for date in $(get_last_60_days); do
-				url="$repo_url$date/$file-$date.xz"
+			# for date in $(get_last_60_days); do
+				url="$repo_url$release_date/$file-$release_date.xz"
 				echo "Downloading: $url"
 
 				# Attempt to download the file using aria2c and handle the result.
-				if aria2c -x 16 -s 16 -o "$file-$date.xz" "$url" && [ $? -eq 0 ]; then
-					echo "Download successful: $file-$date.xz"
-					tar xf "$file-$date.xz" # Extract the downloaded archive.
-					rm -f "$file-$date.xz" # Remove .xz file after extraction
+				if aria2c -x 16 -s 16 -o "$file-$release_date.xz" "$url" && [ $? -eq 0 ]; then
+					echo "Download successful: $file-$release_date.xz"
+					tar xf "$file-$release_date.xz" # Extract the downloaded archive.
+					rm -f "$file-$release_date.xz" # Remove .xz file after extraction
 					#find . -name "$file*.1.xz" -delete
 					downloaded=true # Mark the download as successful.
-					break # Exit date loop after success
+					# break # Exit date loop after success
 				else
 					echo "Download failed: $url"
-					rm -f "$file-$date.xz" # Remove any partially downloaded file.
+					rm -f "$file-$release_date.xz" # Remove any partially downloaded file.
 				fi
-			done
+			# done
 			# If no successful download was made after trying all dates.
 			if [ "$downloaded" = "false" ]; then
 				echo -e "$red Error: Could not download $file after trying recent releases.$white"
